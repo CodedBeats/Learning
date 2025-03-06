@@ -142,9 +142,56 @@ let mergeTwoSortedLists = (list1, list2) => {
 
 
 
+
+/**
+ * Checks if a linked list has a cycle
+ * @param {ListNode} head - the head of a linked list
+ * @returns {boolean} TRUE if the linked list has a cycle and FALSE if not
+ */
+let hasCycle = (head) => {
+    console.log(`\n===== Checking for Cycle in Linked List =====`)
+    // Floyd’s Cycle Finding Algorithm (or rabbit and tortise algorithm?)
+
+    // empty list or single node
+    if (!head || !head.next) return false;
+
+    // rabbit/fast pointer
+    let rabbit = head.next
+    // tortise/slow pointer
+    let tortise = head
+
+    // loop while rabbit can still move cause he will be the one using the loop (i think)
+    while (rabbit !== null && rabbit.next !== null) {
+        // check if rabbit and tortise have met yet
+        if (rabbit == tortise) return true
+
+        // rabbit moves fast (but first check he has somewhere to go)
+        rabbit = rabbit.next.next
+
+        //tortise moves slow
+        tortise = tortise.next
+    }
+
+    // they didn't meet :( so no loop
+    return false
+}
+
+
+
 // ============================================= //
 // ================== TESTING ================== //
 // ============================================= //
+// node structure for linked list with cycle
+// nodes
+let nodeWithCycle1 = new ListNode(1)
+let nodeWithCycle2 = new ListNode(2)
+let nodeWithCycle3 = new ListNode(3)
+let nodeWithCycle4 = new ListNode(4)
+// link nodes
+nodeWithCycle1.next = nodeWithCycle2
+nodeWithCycle2.next = nodeWithCycle3
+nodeWithCycle3.next = nodeWithCycle4
+nodeWithCycle4.next = nodeWithCycle2
 
 // test cases
 const testCases = {
@@ -200,6 +247,16 @@ const testCases = {
                 next: null
             },
         },
+    },
+    "Has Cycle (false)": {
+        func: hasCycle,
+        args: [new ListNode(1, new ListNode(2, new ListNode(3)))],
+        expected: false,
+    },
+    "Has Cycle (true)": {
+        func: hasCycle,
+        args: [nodeWithCycle1],
+        expected: true,
     },
 }
 
