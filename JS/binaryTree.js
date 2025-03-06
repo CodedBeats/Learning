@@ -156,6 +156,33 @@ let areTreesEqual = (tree1, tree2) => {
 
 
 
+/**
+ * Recursively traverses the tree and returns the max depth
+ * @param {TreeNode} root 
+ * @returns {number} the max depth of the tree
+ */
+let maxDepthOfBinaryTree = (root) => {
+    // traverse while tracking depth
+    let traverse = (node, currentDepth) => {
+        //console.log(currentDepth)
+
+        // no node here, next node or finish recursive func, return depth
+        if (!node) return currentDepth
+
+        // go to left subtree and right subtree, get max depth (recursion fucks with my head -_-)
+        let leftDepth = traverse(node.left, currentDepth + 1)
+        let rightDepth = traverse(node.right, currentDepth + 1)
+
+        // return the max depth found
+        return Math.max(leftDepth, rightDepth)
+    }
+
+    return traverse(root, 0)
+}
+
+
+
+
 
 // ============================================= //
 // ================== TESTING ================== //
@@ -201,7 +228,12 @@ const testCases = {
             )
         ],
         expected: true,
-    }
+    },
+    "Get Max Depth of Binary Tree": {
+        func: maxDepthOfBinaryTree,
+        args: [new TreeNode(3, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7)))],
+        expected: 3,
+    },
 }
 
 
@@ -218,7 +250,7 @@ let runTests = (testCases) => {
         const result = func(...args);
         const passed = Array.isArray(expected)
             ? JSON.stringify(result) === JSON.stringify(expected) // compare arrays for traversal
-            : areTreesEqual(result, expected); // compare tree structure
+            : (typeof expected === "object" ? areTreesEqual(result, expected) : result === expected); // compare tree structure
 
         console.log(`${passed ? "✅ Passed" : "❌ Failed"} - ${name}`);
         console.log(`Expected: ${JSON.stringify(expected)}, Got: ${JSON.stringify(result)}\n`);
