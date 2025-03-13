@@ -61,6 +61,34 @@ let getPascalsTriangleRow = (rowIndex) => {
 
 
 
+/**
+ * gets the max profit from a list of prices where prices[i] is the price of a given stock on the i'th day
+ * @param {number[]} prices - an array of prices
+ * @returns {number} the max profit
+ */
+let getMaxProfit = (prices) => {
+    console.log(`\n===== Finding Max Profit =====`)
+    let maxProfit = 0
+    // init min price
+    let minPrice = prices[0]
+
+    for (let i = 1; i < prices.length; i++) {
+        // update min price if current price is lower
+        if (prices[i] < minPrice) {
+            minPrice = prices[i]
+            continue
+        }
+
+        // check if current profit will be more than maxProfit
+        const profit = prices[i] - minPrice
+        if (profit > maxProfit) maxProfit = profit
+    }
+
+    return maxProfit
+}
+
+
+
 
 
 // ============================================= //
@@ -79,6 +107,11 @@ const testCases = {
         args: [7],
         expected: [1,7,21,35,35,21,7,1]
     },
+    "Get Max Profit": {
+        func: getMaxProfit,
+        args: [[2,9,1,4,2,3]],
+        expected: 7
+    }
 }
 
 
