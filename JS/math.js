@@ -89,6 +89,76 @@ let getMaxProfit = (prices) => {
 
 
 
+/**
+ * generates the name of an excel column based on the given number
+ * @param {number} columnNumber - the number of the column
+ * @returns {string} the name of the column
+ */
+let convertToExcelColumnName = (columnNumber) => {
+    console.log(`\n===== Finding Name of Column for Number ${columnNumber} =====`)
+    const letters = [
+        "A","B","C","D","E","F","G","H","I","J","K","L","M",
+        "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+    ]
+    
+    let result = ""
+
+    while (columnNumber > 0) {
+        // change  columnNumber to match indexing with 0 
+        columnNumber-- 
+
+        // get letter from remainder
+        const letter = letters[columnNumber % 26]
+
+        // add to result (right to left lol)
+        result = letter + result
+
+        // next letter position
+        columnNumber = Math.floor(columnNumber / 26)
+    }
+
+    return result
+}
+
+
+
+/**
+ * finds the number that appears most often in an array of numbers
+ * @param {number[]} nums - an array of numbers
+ * @returns {number} the majority element
+ */
+let majorityElement = (nums) => {
+    console.log(`\n===== Finding the Majority Element in [${nums}] =====`)
+    let numCounters = {}
+
+    // get all possible nums and count their appearence
+    nums.forEach((num) => {
+        if (numCounters[num]) {
+            // num has been seen so increment
+            numCounters[num]++
+        } else {
+            // num hasn't been seen so init 
+            numCounters[num] = 1
+        }
+    })
+
+    let majorityElem = null
+    let majorityCount = 0
+
+    // find majority num
+    for (let num in numCounters) {
+        if (numCounters[num] > majorityCount) {
+            // key is string for some reason lol
+            majorityElem = parseInt(num)
+            majorityCount = numCounters[num]
+        }
+    }
+
+    return majorityElem;
+}
+
+
+
 
 
 // ============================================= //
@@ -111,7 +181,17 @@ const testCases = {
         func: getMaxProfit,
         args: [[2,9,1,4,2,3]],
         expected: 7
-    }
+    },
+    "Convert to Excel Column Name": {
+        func: convertToExcelColumnName,
+        args: [701],
+        expected: "ZY"
+    },
+    "Majority Element": {
+        func: majorityElement,
+        args: [[2,2,1,1,1,2,2,1,1,2,2,1,2,2]],
+        expected: 2
+    },
 }
 
 
