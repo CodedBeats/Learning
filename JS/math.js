@@ -123,6 +123,38 @@ let convertToExcelColumnName = (columnNumber) => {
 
 
 /**
+ * generates the number of an excel column based on the given column title
+ * @param {string} columnTitle - the title of the column
+ * @returns {number} the number of the column
+ */
+let convertToExcelColumnNumber = (columnTitle) => {
+    console.log(`\n===== Finding Number of Column for Title ${columnTitle} =====`)
+    const letters = {
+        "A":1,"B":2,"C":3,"D":4,"E":5,"F":6,"G":7,"H":8,"I":9,"J":10,"K":11,"L":12,"M":13,
+        "N":14,"O":15,"P":16,"Q":17,"R":18,"S":19,"T":20,"U":21,"V":22,"W":23,"X":24,"Y":25,"Z":26
+    }
+
+    let result = 0
+
+    for (let i = 0; i < columnTitle.length; i++) {
+        // get current letter
+        let currentLetter = columnTitle[i]
+        //console.log(currentLetter)
+
+        // get number
+        const num = letters[currentLetter]
+        //console.log(num)
+
+        // add num to result in base-26 style
+        result = result * 26 + num
+    }
+
+    return result
+}
+
+
+
+/**
  * finds the number that appears most often in an array of numbers
  * @param {number[]} nums - an array of numbers
  * @returns {number} the majority element
@@ -186,6 +218,11 @@ const testCases = {
         func: convertToExcelColumnName,
         args: [701],
         expected: "ZY"
+    },
+    "Convert to Excel Column Number": {
+        func: convertToExcelColumnNumber,
+        args: ["ZY"],
+        expected: 701
     },
     "Majority Element": {
         func: majorityElement,
