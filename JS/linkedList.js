@@ -178,6 +178,40 @@ let hasCycle = (head) => {
 
 
 
+/**
+ * reverses a linked list
+ * @param {ListNode} head - the head of a linked list
+ * @returns {ListNode} the same list but now in reverse order
+ */
+let reverseLinkedList = (head) => {
+    console.log(`\n===== Reverse Linked List =====`)
+
+    // pointer to track current node
+    let current = head
+    // pointer to track previous node
+    let prev = null
+
+    // loop until end of list which will be null
+    while (current) {
+        // store original next to be able to traverse forward
+        let originalNext = current.next
+
+        // split list in half making current node the head of it's list since it points left (instead of right...but also this is a visual representation idea)
+        current.next = prev
+
+        // shift previous to the right (making it on the node current is on)
+        prev = current
+
+        // shift current to the right (making it on the node right of previous)
+        current = originalNext
+    }
+    
+    // return last looked at node (since current got shifted right to null and previous was still on that non-null node)
+    return prev
+}
+
+
+
 // ============================================= //
 // ================== TESTING ================== //
 // ============================================= //
@@ -257,6 +291,20 @@ const testCases = {
         func: hasCycle,
         args: [nodeWithCycle1],
         expected: true,
+    },
+    "Reverse Linked List": {
+        func: reverseLinkedList,
+        args: [new ListNode(1, new ListNode(2, new ListNode(3)))],
+        expected: {
+            val: 3,
+            next: {
+                val: 2,
+                next: {
+                    val: 1,
+                    next: null,
+                },
+            },
+        },
     },
 }
 
